@@ -11,17 +11,17 @@ from google.appengine.ext import ndb
 
 class Pusher(object):
 
-    def __init__(self, app_id=None, app_key=None, app_secret=None):
+    def __init__(self, app_id=None, key=None, secret=None):
         if not isinstance(app_id, basestring):
             raise ValueError("Application identifier must be a string.")
-        if not isinstance(app_key, basestring):
-            raise ValueError("Application key must be a string.")
-        if not isinstance(app_secret, basestring):
-            raise ValueError("Application secret must be a string.")
+        if not isinstance(key, basestring):
+            raise ValueError("Key must be a string.")
+        if not isinstance(secret, basestring):
+            raise ValueError("Secret must be a string.")
         
         self._app_id = app_id
-        self._app_key = app_key
-        self._app_secret = app_secret
+        self._key = key
+        self._secret = secret
         self._event_path = "/apps/%s/events" % self._app_id
 
     def trigger(self, *args, **kwargs):
@@ -52,7 +52,7 @@ class Pusher(object):
         })
                 
         query_string_mapping = [
-            ('auth_key', self._app_key),
+            ('auth_key', self._key),
             ('auth_timestamp', int(time.time())),
             ('auth_version', '1.0'),
             ('body_md5', hashlib.md5(body).hexdigest()),
@@ -62,7 +62,7 @@ class Pusher(object):
         signature_key = "POST\n%s\n%s" % (self._event_path,
                                           partial_query_string)
         signature = hmac.new(
-            self._app_secret, signature_key, hashlib.sha256).hexdigest()
+            self._secret, signature_key, hashlib.sha256).hexdigest()
         query_string_mapping.append(('auth_signature', signature))
         query_string = urllib.urlencode(query_string_mapping)
         path = '%s?%s' % (self._event_path, query_string)
