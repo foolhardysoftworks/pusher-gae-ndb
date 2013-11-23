@@ -6,7 +6,7 @@ import time
 import json
 import hmac
 
-from google.appenging.ext import ndb
+from google.appengine.ext import ndb
 
 
 class Pusher(object):
@@ -29,7 +29,7 @@ class Pusher(object):
 
     @ndb.tasklet
     def trigger_async(self, channels=None, event_name=None, event_data=None):
-        if not isinstance(channels, basestring):
+        if isinstance(channels, basestring):
             channels = [channels]
         elif isinstance(channels, (list, set, tuple)):
             for channel in channels:
@@ -47,13 +47,13 @@ class Pusher(object):
 
         body = json.dumps({
             'name': event_name,
-            'data': event_data,
+            'data': json.dumps(event_data),
             'channels': channels,
         })
                 
         query_string_mapping = [
             ('auth_key', self._app_key),
-            ('auth_time', int(time.time())),
+            ('auth_timestamp', int(time.time())),
             ('auth_version', '1.0'),
             ('body_md5', hashlib.md5(body).hexdigest()),
         ]
@@ -66,7 +66,7 @@ class Pusher(object):
         query_string_mapping.append(('auth_signature', signature))
         query_string = urllib.urlencode(query_string_mapping)
         path = '%s?%s' % (self._event_path, query_string)
-        result = yield ndb.get_context().urlfetch.fetch(
+        result = yield ndb.get_context().urlfetch(
             url='http://api.pusherapp.com%s' % path,
             payload=body,
             method='POST',
