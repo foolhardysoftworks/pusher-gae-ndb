@@ -23,11 +23,10 @@ Example
    
    app = pusher.Pusher('my-app-id', 'my-app-key', 'my-app-secret')
 
-   event_name = 'cool_event"
    channels = ['channel_1', 'channel_2']  #  Can also be a string.
    event_data = {'message': "Hello World!"}
 
-   result = app.trigger_async(channels, event_name, event_data).get_result()
+   result = app.trigger_async('cool_event, channels, event_data).get_result()
    
 
 To Do
