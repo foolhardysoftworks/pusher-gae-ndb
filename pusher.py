@@ -28,7 +28,7 @@ class Pusher(object):
         return self.trigger_async(*args, **kwargs).get_result()
 
     @ndb.tasklet
-    def trigger_async(self, channels=None, event_name=None, event_data=None):
+    def trigger_async(self, event_name=None, channels=None, event_data=None):
         if isinstance(channels, basestring):
             channels = [channels]
         elif isinstance(channels, (list, set, tuple)):
