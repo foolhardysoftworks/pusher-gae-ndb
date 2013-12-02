@@ -1,16 +1,8 @@
 Pusher Appengine NDB Module
 ===========================
 
-Synopsis
---------
-
-This module allows you to easily trigger pusher events on multiple channels in appengine. It uses the NDB asycronous API (i.e., the urlfetch is run in a tasklet).
-
-
-Installation
-------------
-
-Download pusher.py and ensure that pusher.py is in your path.
+Triggers pusher events on multiple channels in appengine. Uses the
+NDB asycronous API, i.e. the urlfetch is run in a tasklet.
 
 
 Example
@@ -29,10 +21,10 @@ Example
    result = app.trigger_async('cool_event, channels, event_data).get_result()
    
 
-To Do
+Notes
 -----
 
-Unit testing, socket id, and more than just event triggering.
+- There is currently no support for socket IDs
    
    
 
