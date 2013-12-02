@@ -41,7 +41,7 @@ class Pusher(object):
         if not isinstance(event_name, basestring):
             raise ValueError("Event name must be a string.")
         if event_data is not None and not isinstance(
-                event_data, [basestring, dict, list]):
+                event_data, (basestring, dict, list)):
             raise ValueError(
                 "Event data must be a string, dictionary, or list.")
 
