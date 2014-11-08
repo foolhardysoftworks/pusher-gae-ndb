@@ -1,6 +1,8 @@
 Pusher Appengine NDB Module
 ===========================
 
+**THIS REPO IS DEPRECIATED AS THE OFFICIAL PUSHER LIBRARIES NOW SUPPORT NDB ASYNC**
+
 Triggers pusher events on multiple channels in appengine. Uses the
 NDB asycronous API, i.e. the urlfetch is run in a tasklet.
 
